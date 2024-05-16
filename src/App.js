@@ -7,7 +7,7 @@ import SignInPage from "./Components/SignInPage";
 function App() {
   return (
     <>
-   <Homepage/>
+   <SignInPage/>
     </>
   );
 }
