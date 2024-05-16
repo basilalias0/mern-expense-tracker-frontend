@@ -1,62 +1,27 @@
-body{
-    margin: 0;
-    background-color: rgb(220, 223, 227);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.container{
+
+.containerMain{
     background-color: white;
     border-radius: 20px;
     width: 75vw;
-    height: 90vh;
+    height: 80vh;
     display:  flex;
     padding: 0;
 
 }
 
-
-.container .add-transaction{
-    width: 30%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color:rgb(125, 127, 129);
-    border-radius: 20px;
-
-}
-.container .add-transaction .form{
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    
-}
-.container .add-transaction .form .form-elements{
-    margin-bottom: 1.5rem;
-    border: 0;
-    height: 2rem;
-    border-radius: 5px;
-}
-.container .add-transaction .form .form-elements:focus{
-    border: 0;
-}
-/*--------------------------------------------------------------*/
-
-.container .display-transaction{
-    width: 70%;
+.containerMain .display-transaction{
+    width: 100%;
     padding: 2rem;
    
 }
-.container .display-transaction .money-property{
+.containerMain .display-transaction .money-property{
     width: 100%;
     height: 30%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
-.container .display-transaction .money-property .balance-amount{
+.containerMain .display-transaction .money-property .balance-amount{
     width: 30%;
     height: 80%;
     background-color: white;
@@ -64,7 +29,7 @@ body{
     margin: .5rem;
     border-radius: 10px;
 }
-.container .display-transaction .money-property  .total-income{
+.containerMain .display-transaction .money-property  .total-income{
     width: 30%;
     height: 80%;
     background-color: rgb(70, 187, 70);
@@ -72,7 +37,7 @@ body{
     border-radius: 10px;
 
 }
-.container .display-transaction .money-property .total-expense{
+.containerMain .display-transaction .money-property .total-expense{
     width: 30%;
     height: 80%;
     background-color: rgb(229, 102, 102);
@@ -98,4 +63,38 @@ body{
     font-size: 1.5rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+/*------------------------------*/
+.containerMain .recent-transaction{
+    height: 70%;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.containerMain .recent-transaction table{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    
+    
+}
+.containerMain .recent-transaction table thead{
+    
+    border-radius: 10px;
+}
+.containerMain .recent-transaction table th{
+    height: 50px; 
+    border-bottom: 1px solid black;
+    
+}
+.containerMain .recent-transaction table tbody{
+    border-bottom: 1px solid black;
+    background-color:#e5e4e2;
+}
+.containerMain .recent-transaction table tbody td {
+    padding-top: 2px;
+    height: 50px;
+    border-top: 1px solid black;
+
+}
+
 

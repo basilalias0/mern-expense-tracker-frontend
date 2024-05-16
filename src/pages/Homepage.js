@@ -1,11 +1,11 @@
 import React from 'react';
-import Navbar from '../pages/Navbar';
-import Home from '../pages/Home';
+import Home from '../Components/Home';
+import ProfileNavbar from '../Components/ProfileNavbar';
 
 function Homepage() {
   return (
     <div>
-      <Navbar/>
+      <ProfileNavbar/>
       <Home/>
     </div>
   );

@@ -6,7 +6,7 @@ body{
     align-items: center;
     justify-content: center;
 }
-.container{
+.containerLog{
     background-color: white;
     border-radius: 20px;
     width: 75vw;
@@ -15,60 +15,60 @@ body{
     padding: 0;
 
 }
-.container .login-section{
+.containerLog .login-section{
     width: 50%;
 
     
 }
-.container .login-section .logo-section{
+.containerLog .login-section .logo-section{
     margin: 2rem;
     display: flex;
 }
-.container .login-section .logo-section .logo img{
+.containerLog .login-section .logo-section .logo img{
     width: 2rem;
     height: auto;
 }
-.container .login-section .logo-section .app-name{
+.containerLog .login-section .logo-section .app-name{
     padding-top: .3rem;
     margin:0 0 0 1rem;
     font-weight: bold;
     font-size: 1.5rem;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
-.container .login-section .signup-section{
+.containerLog .login-section .signup-section{
     margin: 5rem;
 }
-.container .login-section .signup-section .f-line{
+.containerLog .login-section .signup-section .f-line{
     color: rgb(95, 101, 107);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 2rem;
 }
-.container .login-section .signup-section .s-line{
+.containerLog .login-section .signup-section .s-line{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 2.5rem;
 }
-.container .login-section .signup-section .form .form-field{
+.containerLog .login-section .signup-section .form .form-field{
     margin-bottom: 1rem;
 }
-.container .login-section .signup-section .form .form-field legend{
+.containerLog .login-section .signup-section .form .form-field legend{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1.2rem;
     
 }
-.container .login-section .signup-section .form .form-field input{
+.containerLog .login-section .signup-section .form .form-field input{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1.4rem;
     border: 0;
     width: 100%;
 }
-.container .login-section .signup-section .form .form-field input:focus{
+.containerLog .login-section .signup-section .form .form-field input:focus{
     outline: none; /* Hide the outline when focused */
     border-color: transparent; /* Set border color to transparent */
 }
-.container .login-section .signup-section .form .sign-up-btn{
+.containerLog .login-section .signup-section .form .sign-up-btn{
     height: 3rem;
 }
-.container .login-section .signup-section .form .sign-up-btn button{
+.containerLog .login-section .signup-section .form .sign-up-btn button{
     width: 100%;
     height: 100%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -77,38 +77,40 @@ body{
     border: 0;
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 }
-.container .login-section .signup-section .form .sign-up-btn button:hover{
+.containerLog .login-section .signup-section .form .sign-up-btn button:hover{
     background-color: rgb(220, 223, 227);
     border: 0;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     cursor: pointer;
 }
-.container .login-section .goto-signin-section{
+.containerLog .login-section .goto-signin-section{
     margin-left: 1rem;
     padding-left: .5rem;
     font-size: 1.2rem;
     color: gray;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
-.container .login-section .goto-signin-section a{
+.containerLog .login-section .goto-signin-section a{
     text-decoration: none;
 }
 
 /*-----------------------------------------------------------------------*/
-.container .image-section{
+.containerLog .image-section{
     width: 50%;
 }
-.container .image-section .image{
+.containerLog .image-section .image{
     width: 100%;
     height: 100%;
     overflow: hidden;
     border-radius: 0 20px 20px 0;
 }
-.container .image-section .image{
+.containerLog .image-section .image{
     padding-left: 2rem;
 }
-.container .image-section .image img{
+.containerLog .image-section .image img{
 
     max-width: 100%;
     height: auto;
+    padding-left: 2px;
 }
+
