@@ -1,8 +1,39 @@
 import '../public/css/AuthPage.css'
 import wallet from '../public/images/wallet.png'
+import * as Yup from 'yup';
 import sideImg from '../public/images/pexels-dziana-hasanbekava-7063765.jpg'
+import {useFormik } from 'formik';
+import { useMutation } from '@tanstack/react-query';
+import { loginAPI } from '../Services/users/userServices';
+import Alert from 'react-bootstrap/Alert';
+
+
+const signInValidationSchema = Yup.object({
+    username:Yup.string().required("Username required"),
+    password:Yup.string().min(6,"Minimum 6 Characters").required("Password Required")
+})
 
 function SignIn() {
+
+    //Mutation
+
+    const {mutateAsync,isPending,error,isError,isSuccess} = useMutation({
+        mutationFn:loginAPI,
+        mutationKey:['login']
+    })
+
+     const formik = useFormik({
+        initialValues:{
+            username:"",
+            password:""
+        },
+        validationSchema: signInValidationSchema,
+        onSubmit:(values)=>{
+            mutateAsync(values)
+            .then((data)=>console.log(data))
+            .catch((e)=>console.log(e))
+        }
+     })
   return (
     <div>
             <div className="containerLog">
@@ -17,18 +48,25 @@ function SignIn() {
                         <div className="f-line">Start your journey</div>
                         <div className="s-line">Sign Up to IE Tracker</div>
                         <div className="form">
-                            <form action="" method="post">
+                            {isError && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"danger"} variant={'danger'}> {error.response.data.message} !!! </Alert>}
+                            {isPending && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Loading... </Alert>}
+                            
+                            <form onSubmit={formik.handleSubmit} action="" >
                                 <div className="form-field">
                                     <fieldset>
-                                        <legend>Email</legend>
-                                        <input type="text" id="name" name="email" placeholder="Your Email here!!"/>
+                                        <legend>Username</legend>
+                                        <input type="text" id="name" name="username" placeholder="Your Username here!!" 
+                                        {...formik.getFieldProps("username")}/>
                                     </fieldset>
+                                    {formik.touched.username && formik.errors.username && (<span style={{color:"red"}}>{formik.errors.username}</span>)}
                                 </div>
                                 <div className="form-field">
                                     <fieldset>
                                         <legend>Password</legend>
-                                        <input type="password" id="password" name="password" placeholder="Your Password here!!"/>
+                                        <input type="password" id="password" name="password" placeholder="Your Password here!!" 
+                                        {...formik.getFieldProps("password")}/>
                                     </fieldset>
+                                    {formik.touched.password && formik.errors.password && (<span style={{color:"red"}}>{formik.errors.password}</span>)}
                                 </div>
                                 <div className="sign-up-btn">
                                     <button type="submit">Sign In</button>
@@ -36,7 +74,7 @@ function SignIn() {
                             </form>
                         </div>
                     </div>
-                    <div className="goto-signin-section">Have haven't an account? <a href="./SignUp.js">Sign Up</a></div>
+                    <div className="goto-signin-section">Have haven't an account? <a href="/signup">Sign Up</a></div>
                 </div>
                 <div className="image-section">
                     <div className="image">
