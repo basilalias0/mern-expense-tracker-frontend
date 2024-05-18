@@ -3,17 +3,25 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
     name:'userData',
-    initialState:null,
+    initialState:{
+        user:JSON.parse(localStorage.getItem('userData'))  || null,
+    },
+
     reducers:{
         loginAction:((state,action)=>{
                 state.user = action.payload
+
         }),
         logoutAction:((state,action)=>{
             state.user = null
+        }),
+        changeName:((state,action)=>{
+            console.log(action.payload);
+            state.user = action.payload
         })
     }
 })
 
 export default authSlice.reducer
 
-export const {loginAction,logoutAction} = authSlice.actions
+export const {loginAction,logoutAction,changeName} = authSlice.actions

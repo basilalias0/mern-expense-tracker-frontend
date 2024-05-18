@@ -6,6 +6,9 @@ import {useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import { loginAPI } from '../Services/users/userServices';
 import Alert from 'react-bootstrap/Alert';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../Redux/slice/userSlice';
+import { useNavigate,Link } from 'react-router-dom';
 
 
 const signInValidationSchema = Yup.object({
@@ -15,9 +18,12 @@ const signInValidationSchema = Yup.object({
 
 function SignIn() {
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     //Mutation
 
-    const {mutateAsync,isPending,error,isError,isSuccess} = useMutation({
+    const {mutateAsync,isPending,error,isError} = useMutation({
         mutationFn:loginAPI,
         mutationKey:['login']
     })
@@ -30,8 +36,13 @@ function SignIn() {
         validationSchema: signInValidationSchema,
         onSubmit:(values)=>{
             mutateAsync(values)
-            .then((data)=>console.log(data))
+            .then((data)=>{
+                dispatch(loginAction(data))
+                localStorage.setItem('userData',JSON.stringify(data)) 
+                navigate('/home')
+            })
             .catch((e)=>console.log(e))
+            
         }
      })
   return (
@@ -48,7 +59,7 @@ function SignIn() {
                         <div className="f-line">Start your journey</div>
                         <div className="s-line">Sign Up to IE Tracker</div>
                         <div className="form">
-                            {isError && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"danger"} variant={'danger'}> {error.response.data.message} !!! </Alert>}
+                            {isError && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"danger"} variant={'danger'}> {error?.response?.data?.message} !!! </Alert>}
                             {isPending && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Loading... </Alert>}
                             
                             <form onSubmit={formik.handleSubmit} action="" >
@@ -74,11 +85,11 @@ function SignIn() {
                             </form>
                         </div>
                     </div>
-                    <div className="goto-signin-section">Have haven't an account? <a href="/signup">Sign Up</a></div>
+                    <div className="goto-signin-section">Have haven't an account? <Link to="/signup">Sign Up</Link></div>
                 </div>
                 <div className="image-section">
                     <div className="image">
-                        <img src={sideImg} alt="Image not Found" />
+                        <img src={sideImg} alt="not Found" />
                     </div>
                 </div>
             </div>

@@ -3,6 +3,12 @@ import wallet from '../public/images/wallet.png'
 import sideImg from '../public/images/pexels-dziana-hasanbekava-7063765.jpg'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import {Link, useNavigate} from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query';
+import { registerAPI } from '../Services/users/userServices';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../Redux/slice/userSlice';
+import Alert from 'react-bootstrap/Alert';
 
 const SignupSchema = Yup.object({
     name: Yup.string()
@@ -12,18 +18,29 @@ const SignupSchema = Yup.object({
     username:Yup.string()
     .lowercase("All Lowercase")
     .min(3,"Too Short!")
-    .max(10,"Maximum 10 characters")
+    .max(15,"Maximum 15 characters")
     .required("Username Required"),
     email:Yup.string()
     .email("Invalid Email")
     .required("Email required"),
     password:Yup.string()
     .min(6,"Minimum 6 Characters")
-    .required("Password Required")
+    .required("Password Required"),
+    confirmPassword:Yup.string()
+    .oneOf([Yup.ref("password"),null],"Passwords must match!")
+    .required("Need confirm password")
   });
 
 
 function SignUp() {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const {mutateAsync,isPending,isError,error}= useMutation({
+        mutationFn:registerAPI,
+        mutationKey:['register']
+    })
 
     const formik = useFormik({
         initialValues:{
@@ -33,7 +50,15 @@ function SignUp() {
             password:""
         },
         validationSchema:SignupSchema,
-        onSubmit:(values)=>console.log(values)
+        onSubmit:(values)=>{
+            mutateAsync(values)
+            .then((data)=>{
+                localStorage.setItem('userData',JSON.stringify(data))
+                dispatch(loginAction(data))
+                navigate('/home')
+            })
+            .catch((e)=>console.log(e))
+        }
     })
 
   return (
@@ -50,6 +75,8 @@ function SignUp() {
                         <div className="f-line">Start your journey</div>
                         <div className="s-line">Sign Up to IE Tracker</div>
                         <div className="form">
+                        {isPending && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Loading... </Alert>}
+                        {isError && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"danger"} variant={'danger'}> {error?.response?.data?.message} !!! </Alert>}
                             <form onSubmit={formik.handleSubmit} action="" method="post">
                             <div className="form-field">
                                     <fieldset>
@@ -82,13 +109,21 @@ function SignUp() {
                                     </fieldset>
                                     {formik.touched.password && formik.errors.password && (<span style={{color:"red"}}>{formik.errors.password}</span>)}
                                 </div>
+                                <div className="form-field">
+                                    <fieldset>
+                                        <legend>Confirm Password</legend>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-Enter password" 
+                                        {...formik.getFieldProps("confirmPassword")}/>
+                                    </fieldset>
+                                    {formik.touched.confirmPassword&& formik.errors.confirmPassword && (<span style={{color:"red"}}>{formik.errors.confirmPassword}</span>)}
+                                </div>
                                 <div className="sign-up-btn">
                                     <button type="submit">Sign Up</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div className="goto-signin-section">Have an account? <a href="/">Sign in</a></div>
+                    <div className="goto-signin-section">Have an account? <Link to="/">Sign In</Link></div>
                 </div>
                 <div className="image-section">
                     <div className="image">

@@ -18,6 +18,7 @@ function UpdatePassword() {
             <Modal.Title>Want to update your password?</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            
             <Form>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Control style={{marginBottom:"1rem"}}
