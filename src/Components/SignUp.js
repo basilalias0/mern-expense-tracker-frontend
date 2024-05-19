@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { loginAction } from '../Redux/slice/userSlice';
 import Alert from 'react-bootstrap/Alert';
 
+
 const SignupSchema = Yup.object({
     name: Yup.string()
       .min(2, 'Too Short!')
@@ -127,7 +128,7 @@ function SignUp() {
                 </div>
                 <div className="image-section">
                     <div className="image">
-                        <img src={sideImg} alt="Image not Found" />
+                        <img src={sideImg} alt="not Found" />
                     </div>
                 </div>
             </div>

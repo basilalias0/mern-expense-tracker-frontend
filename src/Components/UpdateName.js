@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { updateNameAPI } from '../Services/users/userServices';
 import {  useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-import { changeName } from '../Redux/slice/userSlice';
+import { userAction } from '../Redux/slice/userSlice';
 import Alert from 'react-bootstrap/Alert';
 
 
@@ -39,7 +39,7 @@ function UpdateName() {
       validationSchema:nameValidationSchema,
       onSubmit:(values)=>{
         mutateAsync(values).then((data)=>{
-          dispatch(changeName(data))
+          dispatch(userAction(data))
           handleClose()
         })
         .catch((e)=>console.log(e))
@@ -63,7 +63,6 @@ function UpdateName() {
                   name="name"
                   placeholder="Enter your new name here!!"
                   {...formik.getFieldProps("name")}
-                  autoFocus
                 />
                 
                 

@@ -15,8 +15,7 @@ const authSlice = createSlice({
         logoutAction:((state,action)=>{
             state.user = null
         }),
-        changeName:((state,action)=>{
-            console.log(action.payload);
+        userAction:((state,action)=>{
             state.user = action.payload
         })
     }
@@ -24,4 +23,4 @@ const authSlice = createSlice({
 
 export default authSlice.reducer
 
-export const {loginAction,logoutAction,changeName} = authSlice.actions
+export const {loginAction,logoutAction,userAction} = authSlice.actions

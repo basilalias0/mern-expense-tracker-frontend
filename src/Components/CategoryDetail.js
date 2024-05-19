@@ -12,7 +12,7 @@ function CategoryDetail(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Category Heading
+            Want to delete this category?
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

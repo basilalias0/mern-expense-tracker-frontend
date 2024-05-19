@@ -8,6 +8,7 @@ import UpdateUsername from './UpdateUsername';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../Redux/slice/userSlice';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 
 function Profile() {
@@ -15,7 +16,6 @@ function Profile() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogout = (e)=>{
-      e.preventDefault()
       localStorage.removeItem('userData')
       dispatch(logoutAction())
       navigate('/')

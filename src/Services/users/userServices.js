@@ -46,7 +46,36 @@ export const updateUsernameAPI = async({username})=>{
     return response.data
 
 }
+export const updatePasswordAPI = async({newPassword,oldPassword})=>{
+    console.log(token);
+    const response = await axios.put(`${BASE_URL}/user/updatepassword`,{
+        newPassword,
+        oldPassword
+    },{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    })
+    return response.data
+}
 
+
+
+export const createTransactionAPI = async({category,transactionType,amount,date})=>{
+    console.log(token);
+    const response = await axios.post(`${BASE_URL}/transaction/create`,{
+        category,
+        type:transactionType,
+        amount,
+        date
+    },{
+        headers:{
+            
+            Authorization:`Bearer ${token}`
+        }
+    })
+    return response.data
+}
 
 
 

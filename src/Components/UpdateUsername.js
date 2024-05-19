@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import * as Yup from 'yup';
 import { updateUsernameAPI } from '../Services/users/userServices';
 import { useDispatch } from 'react-redux';
-import { changeName } from '../Redux/slice/userSlice';
+import {  userAction } from '../Redux/slice/userSlice';
 import Alert from 'react-bootstrap/Alert';
 
 function UpdateUsername() {
@@ -40,7 +40,7 @@ function UpdateUsername() {
       onSubmit:(values)=>{
         mutateAsync(values)
         .then((data)=>{
-          dispatch(changeName(data))
+          dispatch(userAction(data))
           handleClose()
         })
         .catch((e)=>console.log(e))
@@ -65,7 +65,6 @@ function UpdateUsername() {
                   name='username'
                   placeholder="Enter your new username here!!"
                   {...formik.getFieldProps("username")}
-                  autoFocus
                 />
                 {formik.touched.username && formik.errors.username && (<span style={{color:"red"}}>{formik.errors.username}</span>)}
               </Form.Group>
