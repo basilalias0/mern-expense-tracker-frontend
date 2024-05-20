@@ -50,6 +50,7 @@ function UpdatePassword() {
         .then((data)=>{
           console.log(data)
           dispatch(userAction(data))
+          localStorage.setItem('userData',JSON.stringify(data)) 
           handleClose()
         })
         .catch((e)=>console.log(e))

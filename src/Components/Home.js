@@ -1,13 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { listTransactionAPI } from '../Services/transactions/transactionServices';
 import '../public/css/home.css'
-import CloseButton from 'react-bootstrap/CloseButton';
+import Alert from 'react-bootstrap/Alert';
+import { useEffect } from 'react';
 
 function Home() {
-  const {data:transactionList,isFetched} = useQuery({
+  const {data:transactionList,isFetching,refetch} = useQuery({
     queryKey:['transaction-list'],
     queryFn:listTransactionAPI,
   })
+
+  useEffect(()=>{
+    refetch({ force: true });
+  },[])
   return (
     <div>
       <div className='containerMain'> 
@@ -26,8 +31,9 @@ function Home() {
             <div className="transaction-body">$Amount</div>
             </div>
           </div>
-          <div className='recent-transaction' style={{overflowY:"scroll"}}>
-          <div className='full-transaction'>
+          {isFetching ? <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Fetching your Transaction Details... </Alert>:
+          <div className='recent-transaction' style={{overflowY:"auto"}}>
+          <div className='full-transaction' >
           <table >
             <thead>
               <tr>
@@ -35,7 +41,8 @@ function Home() {
                 <th>Category</th>
                 <th>Type</th>
                 <th>Amount</th>
-                <th>Delete</th>
+                <th>Description</th>
+
               </tr>
               </thead>
               <tbody>
@@ -51,13 +58,14 @@ function Home() {
                     <td>{transaction.category}</td>
                     <td>{transaction.type}</td>
                     <td>₹{transaction.amount}</td>
-                    <td><CloseButton /></td>
+                    <td>{transaction.description}</td>
                   </tr>
                 ))}
               </tbody>
           </table>
           </div>
           </div>
+          }
         </div>
       </div>
       

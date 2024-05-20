@@ -43,6 +43,7 @@ function UpdateName() {
       onSubmit:(values)=>{
         mutateAsync(values).then((data)=>{
           dispatch(userAction(data))
+          localStorage.setItem('userData',JSON.stringify(data)) 
           handleClose()
         })
         .catch((e)=>console.log(e))

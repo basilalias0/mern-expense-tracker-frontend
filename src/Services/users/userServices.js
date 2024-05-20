@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux";
+
+import { getUserFromStorage } from "../../utils/getUserFromStorage";
 import { BASE_URL } from "../../utils/url";
 import axios from 'axios'
-import { getUserFromStorage } from "../../utils/getUserFromStorage";
-const token = getUserFromStorage()
 axios.defaults.withCredentials = true;
 
 
@@ -25,6 +24,7 @@ export const registerAPI = async({name,email,username,password})=>{
     return response.data
 }
 export const updateNameAPI = async({name})=>{
+    const token = getUserFromStorage()
     const response = await axios.put(`${BASE_URL}/user/updatename`,{
         name,
     },
@@ -36,6 +36,7 @@ export const updateNameAPI = async({name})=>{
     return response.data
 }
 export const updateUsernameAPI = async({username})=>{
+    const token = getUserFromStorage()
     const response = await axios.put(`${BASE_URL}/user//updateusername`,{
         username
     },{
@@ -47,7 +48,7 @@ export const updateUsernameAPI = async({username})=>{
 
 }
 export const updatePasswordAPI = async({newPassword,oldPassword})=>{
-    console.log(token);
+    const token = getUserFromStorage()
     const response = await axios.put(`${BASE_URL}/user/updatepassword`,{
         newPassword,
         oldPassword

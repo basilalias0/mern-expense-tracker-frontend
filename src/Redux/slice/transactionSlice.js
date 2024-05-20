@@ -6,7 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const transactionSlice = createSlice({
     name:'transactionData',
     initialState:{
-        list:[]
+        list:null
     },
     reducers:{
         fetchTransaction:((state,action)=>{

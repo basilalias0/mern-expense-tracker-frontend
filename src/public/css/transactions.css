@@ -14,11 +14,13 @@
     height: 85%;
     width: 70%;
     border: 1px solid black;
+    overflow-y: scroll;
 }
  .full-transaction table{
     width: 100%;
     height: auto;
     text-align: center;
+    overflow-y: scroll;
     
     
 }
@@ -42,13 +44,13 @@
 
 }
  .add-transaction{
-    width: 40%;
+    width: 20%;
     height: 85%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color:rgb(125, 127, 129);
-    border-radius: 20px ;
+    border-radius: 20px 0 0 20px ;
 
 }
 .add-transaction .form{

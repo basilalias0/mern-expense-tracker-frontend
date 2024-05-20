@@ -54,7 +54,7 @@ function SignUp() {
         onSubmit:(values)=>{
             mutateAsync(values)
             .then((data)=>{
-                localStorage.setItem('userData',JSON.stringify(data))
+                localStorage.setItem('userData',JSON.stringify(data)) 
                 dispatch(loginAction(data))
                 navigate('/home')
             })

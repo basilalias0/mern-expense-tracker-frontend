@@ -1,21 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../public/css/transactions.css'
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import {useMutation} from '@tanstack/react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
 import { createTransactionAPI } from '../Services/transactions/transactionServices';
+import CloseButton from 'react-bootstrap/CloseButton';
+import { useQuery } from '@tanstack/react-query';
+import { listTransactionAPI } from '../Services/transactions/transactionServices';
 
 
 
 function Transactions() {
+  const queryClient = useQueryClient();
 
-  const {mutateAsync,error,isError,isPending,isSuccess} = useMutation({
+  const {mutateAsync,error,isError,isPending} = useMutation({
     mutationKey:['add-transaction'],
     mutationFn:createTransactionAPI,
+    onSuccess: () => {
+      queryClient.invalidateQueries('transaction-list');
+      formik.resetForm(); 
+      
+    },
     
   })
+
+  const {data:transactionList,isFetching,refetch,} = useQuery({
+    queryKey:['transaction-list'],
+    queryFn:listTransactionAPI,
+  })
+
+  useEffect(()=>{
+    refetch({ force: true });
+  },[])
+
  const navigate = useNavigate()
 
 
@@ -29,7 +48,8 @@ function Transactions() {
     amount:Yup.number()
     .positive("Must be a Positive amount")
     .required("Need transaction amount"),
-    date:Yup.date().required("Date must be required").max(new Date(), 'Start date cannot be in the future')
+    date:Yup.date().required("Date must be required").max(new Date(), 'Start date cannot be in the future'),
+    description:Yup.string()
   })
 
   const formik = useFormik({
@@ -37,13 +57,14 @@ function Transactions() {
       category:"",
       transactionType:"",
       amount:"",
-      date:""
+      date:"",
+      description:""
     },
     validationSchema:createTransactionSchema,
     onSubmit:((values)=>{
       mutateAsync(values)
       .then((data)=>{
-        console.log(data);
+        navigate('/home')
       })
       .catch((e)=>console.log(e))
     })
@@ -62,7 +83,6 @@ function Transactions() {
           <form className='form' onSubmit={formik.handleSubmit}>
           {isPending && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Loading... </Alert>}
           {isError && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"danger"} variant={'danger'}> {error?.response?.data?.message} !!! </Alert>}
-          {isSuccess && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"success"} variant={'success'}> {error?.response?.data?.message} !!! </Alert>}
           <div style={{marginBottom:"2rem"}}>
       <input style={{marginBottom:"0",width:"100%"}}
       className="form-elements"
@@ -142,12 +162,61 @@ function Transactions() {
       </div>
       </div>
 
+      <div style={{marginBottom:"2rem"}}>
+      <textarea style={{marginBottom:"0",width:"99%",height:"8rem"}} 
+      
+      className="form-elements"
+      type='text' 
+      placeholder='Description Here...' 
+      id='description' 
+      name='description'
+      {...formik.getFieldProps("description")}/>
+      </div>
+      
+     
+
       
       <input className="form-elements" id="submit" type="submit" value="Add Transaction" />
     </form>
 
   </div>
-        
+  <div className=' full-transaction-table'>
+            {isFetching ? <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Fetching your Transaction Details... </Alert>:
+            
+            <div className='full-transaction'>
+          <table >
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Delete</th>
+              </tr>
+              </thead>
+              <tbody>
+              {transactionList?.map(transaction => (
+                  <tr key={transaction._id} style={(transaction.type ==="income"?{backgroundColor:"rgb(70, 187, 70)",fontWeight:"bold"}:{backgroundColor:"rgb(229, 102, 102)",fontWeight:"bold"})} >
+                    
+                    <td>{new Date(transaction.date)
+                    .toLocaleDateString('en-GB',{
+                                                  day: 'numeric',
+                                                  month: 'long',
+                                                  year: 'numeric',
+                                                 })}</td>
+                    <td>{transaction.category}</td>
+                    <td>{transaction.type}</td>
+                    <td>₹{transaction.amount}</td>
+                    <td><CloseButton /></td>
+                  </tr>
+                ))}
+              </tbody>
+          </table>
+          </div>}
+            
+
+  
+          </div>
         
       </div>
 

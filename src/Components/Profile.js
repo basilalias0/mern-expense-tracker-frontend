@@ -8,16 +8,21 @@ import UpdateUsername from './UpdateUsername';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../Redux/slice/userSlice';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useQueryClient } from '@tanstack/react-query';
+
 
 
 function Profile() {
   const profile = useSelector((state)=>state.auth.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
   const handleLogout = (e)=>{
       localStorage.removeItem('userData')
       dispatch(logoutAction())
+      navigate('/')
+      queryClient.clear()
       
   }
   console.log(profile);
@@ -43,7 +48,7 @@ function Profile() {
         </ListGroup.Item>
         <ListGroup.Item><UpdatePassword/></ListGroup.Item>
         <ListGroup.Item><UpdateUsername/></ListGroup.Item>
-        <ListGroup.Item><Button onClick={handleLogout} variant="outline-secondary" style={{width:"100%"}} a href='/'>Logout</Button></ListGroup.Item>
+        <ListGroup.Item><Button onClick={handleLogout} variant="outline-secondary" style={{width:"100%"}}>Logout</Button></ListGroup.Item>
         
       </ListGroup>
     </Card>
