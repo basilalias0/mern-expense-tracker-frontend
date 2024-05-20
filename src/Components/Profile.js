@@ -18,7 +18,7 @@ function Profile() {
   const handleLogout = (e)=>{
       localStorage.removeItem('userData')
       dispatch(logoutAction())
-      navigate('/')
+      
   }
   console.log(profile);
   return (
@@ -43,7 +43,7 @@ function Profile() {
         </ListGroup.Item>
         <ListGroup.Item><UpdatePassword/></ListGroup.Item>
         <ListGroup.Item><UpdateUsername/></ListGroup.Item>
-        <ListGroup.Item><Button onClick={handleLogout} variant="outline-secondary" style={{width:"100%"}}>Logout</Button></ListGroup.Item>
+        <ListGroup.Item><Button onClick={handleLogout} variant="outline-secondary" style={{width:"100%"}} a href='/'>Logout</Button></ListGroup.Item>
         
       </ListGroup>
     </Card>

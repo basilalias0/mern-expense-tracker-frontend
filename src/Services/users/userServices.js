@@ -61,22 +61,5 @@ export const updatePasswordAPI = async({newPassword,oldPassword})=>{
 
 
 
-export const createTransactionAPI = async({category,transactionType,amount,date})=>{
-    console.log(token);
-    const response = await axios.post(`${BASE_URL}/transaction/create`,{
-        category,
-        type:transactionType,
-        amount,
-        date
-    },{
-        headers:{
-            
-            Authorization:`Bearer ${token}`
-        }
-    })
-    return response.data
-}
-
-
 
 

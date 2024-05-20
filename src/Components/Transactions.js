@@ -1,18 +1,23 @@
 import React from 'react';
-import CloseButton from 'react-bootstrap/CloseButton';
 import '../public/css/transactions.css'
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { useMutation } from '@tanstack/react-query';
+import {useMutation} from '@tanstack/react-query';
 import Alert from 'react-bootstrap/Alert';
-import { createTransactionAPI } from '../Services/users/userServices';
+import { useNavigate } from 'react-router-dom';
+import { createTransactionAPI } from '../Services/transactions/transactionServices';
+
+
 
 function Transactions() {
 
-  const {mutateAsync,error,isError,isPending} = useMutation({
+  const {mutateAsync,error,isError,isPending,isSuccess} = useMutation({
     mutationKey:['add-transaction'],
-    mutationFn:createTransactionAPI
+    mutationFn:createTransactionAPI,
+    
   })
+ const navigate = useNavigate()
+
 
   const createTransactionSchema = Yup.object({
     category: Yup.string()
@@ -24,8 +29,7 @@ function Transactions() {
     amount:Yup.number()
     .positive("Must be a Positive amount")
     .required("Need transaction amount"),
-    date:Yup.string()
-    .required("Date must be required")
+    date:Yup.date().required("Date must be required").max(new Date(), 'Start date cannot be in the future')
   })
 
   const formik = useFormik({
@@ -58,7 +62,8 @@ function Transactions() {
           <form className='form' onSubmit={formik.handleSubmit}>
           {isPending && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Loading... </Alert>}
           {isError && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"danger"} variant={'danger'}> {error?.response?.data?.message} !!! </Alert>}
-          <div style={{marginBottom:"1rem"}}>
+          {isSuccess && <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"success"} variant={'success'}> {error?.response?.data?.message} !!! </Alert>}
+          <div style={{marginBottom:"2rem"}}>
       <input style={{marginBottom:"0",width:"100%"}}
       className="form-elements"
       type='text' 
@@ -71,7 +76,7 @@ function Transactions() {
       (<span style={{color:"red"}}>{formik.errors.category}</span>)}
       </div>
       </div>
-      <div style={{marginBottom:"1rem"}}>
+      <div style={{marginBottom:"2rem"}}>
       <fieldset style={{marginBottom:"0",width:"100%"}}
             id="transactionType"
             label="One of these please"
@@ -81,7 +86,7 @@ function Transactions() {
             error={formik.errors.transactionType}
           >
             <div>
-            {/* of course, add the id in fieldset as name in the input tags  */}
+          
             <input
               type="radio"
               name="transactionType"
@@ -108,7 +113,7 @@ function Transactions() {
             </div>
             </div>
           
-          <div style={{marginBottom:"1rem"}}>
+          <div style={{marginBottom:"2rem"}}>
       <input style={{marginBottom:"0",width:"100%"}}
       className="form-elements"
       type='number' 
@@ -123,10 +128,10 @@ function Transactions() {
       </div>
 
 
-      <div style={{marginBottom:"1rem"}}>
+      <div style={{marginBottom:"2rem"}}>
       <input style={{marginBottom:"0",width:"100%"}}
       className="form-elements"
-      type='text' 
+      type='date' 
       placeholder='Date' 
       id='date' 
       name='date'
@@ -142,31 +147,7 @@ function Transactions() {
     </form>
 
   </div>
-        <div className='full-transaction-table'>
-        <div className='full-transaction'>
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Category</th>
-                <th>Type</th>
-                <th>Amount</th>
-                <th>Delete</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-              <td>00/00</td>
-              <td>category</td>
-              <td>IC/Ex</td>
-              <td>2000</td>
-              <td><CloseButton/></td>
-              </tr>
-              </tbody>
-          </table>
-          </div>
-
-        </div>
+        
         
       </div>
 

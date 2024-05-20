@@ -14,7 +14,10 @@ import Alert from 'react-bootstrap/Alert';
 function UpdateUsername() {
     const [show, setShow] = useState(false);
   
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+      setShow(false);
+      formik.resetForm()
+    }
     const handleShow = () => setShow(true);
 
     const dispatch = useDispatch()

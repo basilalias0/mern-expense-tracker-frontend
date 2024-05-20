@@ -24,7 +24,10 @@ function UpdateName() {
   const dispatch = useDispatch()
     const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+      setShow(false);
+      formik.resetForm()
+    }
     const handleShow = () => setShow(true);
 
     const {isError,error,isPending,mutateAsync} = useMutation({

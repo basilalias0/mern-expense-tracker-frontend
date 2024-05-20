@@ -68,33 +68,7 @@
     height: 70%;
     width: 100%;
     border: 1px solid black;
-    border-radius: 10px;
-}
-.containerMain .recent-transaction table{
-    width: 100%;
-    height: auto;
-    text-align: center;
-    
-    
-}
-.containerMain .recent-transaction table thead{
-    
-    border-radius: 10px;
-}
-.containerMain .recent-transaction table th{
-    height: 50px; 
-    border-bottom: 1px solid black;
-    
-}
-.containerMain .recent-transaction table tbody{
-    border-bottom: 1px solid black;
-    background-color:#e5e4e2;
-}
-.containerMain .recent-transaction table tbody td {
-    padding-top: 2px;
-    height: 50px;
-    border-top: 1px solid black;
-
+    border-radius: 10px 0 0 10px;
 }
 
 

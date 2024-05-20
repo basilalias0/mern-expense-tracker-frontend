@@ -15,7 +15,10 @@ import { userAction } from '../Redux/slice/userSlice';
 function UpdatePassword() {
     const [show, setShow] = useState(false);
   
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+      setShow(false);
+      formik.resetForm()
+    }
     const handleShow = () => setShow(true);
     const dispatch = useDispatch()
     const {isError,error,isPending,mutateAsync} = useMutation({
