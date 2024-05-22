@@ -48,7 +48,6 @@ function UpdatePassword() {
       onSubmit:((values)=>{
         mutateAsync(values)
         .then((data)=>{
-          console.log(data)
           dispatch(userAction(data))
           localStorage.setItem('userData',JSON.stringify(data)) 
           handleClose()

@@ -17,34 +17,11 @@
 .containerMain .display-transaction .money-property{
     width: 100%;
     height: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
-.containerMain .display-transaction .money-property .balance-amount{
-    width: 30%;
-    height: 80%;
-    background-color: white;
-    border: 1px solid black;
-    margin: .5rem;
-    border-radius: 10px;
-}
-.containerMain .display-transaction .money-property  .total-income{
-    width: 30%;
-    height: 80%;
-    background-color: rgb(70, 187, 70);
-    margin: .5rem;
-    border-radius: 10px;
+    margin-bottom: 1rem;
+    margin-top: -1rem;
 
 }
-.containerMain .display-transaction .money-property .total-expense{
-    width: 30%;
-    height: 80%;
-    background-color: rgb(229, 102, 102);
-    margin: .5rem;
-    border-radius: 10px;
 
-}
 .header{
     display: flex;
     margin-top: 1rem;

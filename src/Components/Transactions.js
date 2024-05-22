@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import '../public/css/transactions.css'
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {useMutation} from '@tanstack/react-query';
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
-import { createTransactionAPI } from '../Services/transactions/transactionServices';
+import { createTransactionAPI, deleteTransactionAPI } from '../Services/transactions/transactionServices';
 import CloseButton from 'react-bootstrap/CloseButton';
 import { useQuery } from '@tanstack/react-query';
 import { listTransactionAPI } from '../Services/transactions/transactionServices';
@@ -13,16 +13,10 @@ import { listTransactionAPI } from '../Services/transactions/transactionServices
 
 
 function Transactions() {
-  const queryClient = useQueryClient();
 
   const {mutateAsync,error,isError,isPending} = useMutation({
     mutationKey:['add-transaction'],
     mutationFn:createTransactionAPI,
-    onSuccess: () => {
-      queryClient.invalidateQueries('transaction-list');
-      formik.resetForm(); 
-      
-    },
     
   })
 
@@ -31,9 +25,11 @@ function Transactions() {
     queryFn:listTransactionAPI,
   })
 
-  useEffect(()=>{
-    refetch({ force: true });
-  },[])
+  const {mutateAsync:deleteAsync} = useMutation({
+    mutationKey:['delete-transaction'],
+    mutationFn:deleteTransactionAPI
+  })
+
 
  const navigate = useNavigate()
 
@@ -70,6 +66,13 @@ function Transactions() {
     })
   })
 
+  const handleDelete = (id)=>{
+      deleteAsync(id).then((data)=>{
+        formik.resetForm()
+        refetch()
+      })
+      .catch((e)=>console.log(e))
+  }
 
   return (
     <div>
@@ -196,7 +199,7 @@ function Transactions() {
               </thead>
               <tbody>
               {transactionList?.map(transaction => (
-                  <tr key={transaction._id} style={(transaction.type ==="income"?{backgroundColor:"rgb(70, 187, 70)",fontWeight:"bold"}:{backgroundColor:"rgb(229, 102, 102)",fontWeight:"bold"})} >
+                  <tr key={transaction._id} style={(transaction.type ==="income"?{backgroundColor:"#98FB98",fontWeight:"bold"}:{backgroundColor:"#FC567A",fontWeight:"bold"})} >
                     
                     <td>{new Date(transaction.date)
                     .toLocaleDateString('en-GB',{
@@ -204,10 +207,10 @@ function Transactions() {
                                                   month: 'long',
                                                   year: 'numeric',
                                                  })}</td>
-                    <td>{transaction.category}</td>
-                    <td>{transaction.type}</td>
+                    <td style={{textTransform:"capitalize"}}>{transaction.category}</td>
+                    <td style={{textTransform:"capitalize"}}>{transaction.type}</td>
                     <td>₹{transaction.amount}</td>
-                    <td><CloseButton /></td>
+                    <td><CloseButton onClick={()=>handleDelete(transaction._id)}/></td>
                   </tr>
                 ))}
               </tbody>

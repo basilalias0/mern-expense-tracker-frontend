@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import CategoryDetail from './CategoryDetail';
 import Button from 'react-bootstrap/Button';
@@ -9,16 +9,14 @@ import Alert from 'react-bootstrap/Alert';
 
 function Categories() {
   const [modalShow, setModalShow] = React.useState(false);
+  const [element,setElement]= useState("")
 
-  const {data:categoryList,refetch,isFetching} = useQuery({
+  const {data:categoryList,isFetching,refetch} = useQuery({
     queryKey:['transaction-list'],
     queryFn:listCategoryAPI,
   })
 
-  useEffect(()=>{
-    refetch({ force: true });
-  },[])
-
+ 
 
   return (
     <div>
@@ -28,6 +26,9 @@ function Categories() {
       <CategoryDetail
         show={modalShow}
         onHide={() => setModalShow(false)}
+        element ={element}
+        refetch = {refetch}
+        
       />
          
          {isFetching ? <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Fetching category Details... </Alert>:
@@ -38,11 +39,14 @@ function Categories() {
       
         {categoryList?.map((element)=>{
          return(
-          <Button key={element.id} variant={element?.type==="income"? "outline-success":"outline-danger"} style={{border:"0",padding:"0",margin:"0"}} onClick={() => setModalShow(true)}>
+          <Button key={element.id}variant={element?.type==="income"? "outline-success":"outline-danger"} style={{border:"0",padding:"0",margin:"0"}} onClick={() => {
+            setModalShow(true)
+            setElement(element)
+            }}>
             <Card  style={{ width: '13rem',margin:"1rem", height:"7rem" }}>
             <Card.Body>
-          <Card.Title style={{paddingBottom:"1.1rem"}}>{element.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted"  style={{fontSize:"1.2rem"}}>{element.type}</Card.Subtitle>
+          <Card.Title style={{paddingBottom:"1.1rem",textTransform:"capitalize"}}>{element.name}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted"  style={{fontSize:"1.2rem",textTransform:"capitalize"}}>{element.type}</Card.Subtitle>
         </Card.Body>
         </Card>
         </Button>

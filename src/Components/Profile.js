@@ -25,7 +25,7 @@ function Profile() {
       queryClient.clear()
       
   }
-  console.log(profile);
+
   return (
     <div>
         

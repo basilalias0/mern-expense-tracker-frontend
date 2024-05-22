@@ -47,3 +47,25 @@ export const listCategoryAPI = async()=>{
 
     return response.data
 }
+
+export const deleteTransactionAPI = async(id)=>{
+    const token = getUserFromStorage()
+    const response = await axios.delete(`${BASE_URL}/transaction/delete/${id}`,{
+        headers:{
+
+            Authorization:`Bearer ${token}`
+        } 
+    })
+    return response.data
+} 
+
+export const deleteCategoryAPI = async(id)=>{
+    const token = getUserFromStorage()
+    const response = await axios.delete(`${BASE_URL}/category/delete/${id}`,{
+        headers:{
+
+            Authorization:`Bearer ${token}`
+        } 
+    })
+    return response.data
+} 

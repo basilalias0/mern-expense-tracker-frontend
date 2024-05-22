@@ -1,35 +1,34 @@
-import { useQuery } from '@tanstack/react-query';
-import { listTransactionAPI } from '../Services/transactions/transactionServices';
+import {  useQuery } from '@tanstack/react-query';
+import {  listTransactionAPI } from '../Services/transactions/transactionServices';
 import '../public/css/home.css'
 import Alert from 'react-bootstrap/Alert';
-import { useEffect } from 'react';
+import { TransactionChart } from './TransactionChart';
+
+
 
 function Home() {
-  const {data:transactionList,isFetching,refetch} = useQuery({
+  const {data:transactionList,isFetching} = useQuery({
     queryKey:['transaction-list'],
     queryFn:listTransactionAPI,
   })
 
-  useEffect(()=>{
-    refetch({ force: true });
-  },[])
+   const totals = transactionList?.reduce((acc,transaction)=>{
+    if(transaction.type==="income"){
+      acc.income += transaction?.amount
+      acc.balance += transaction?.amount
+    }else{
+      acc.expense -= transaction?.amount
+      acc.balance -= transaction?.amount
+    }
+    return acc
+  },{income:0,expense:0,balance:0})
+
   return (
     <div>
       <div className='containerMain'> 
         <div className='display-transaction'>
           <div className='money-property'>
-            <div className='balance-amount'>
-              <div className="header">Balance Amount</div>
-              <div className="transaction-body">$Amount</div>
-            </div>
-            <div className='total-income'>
-            <div className="header">Total Income</div>
-            <div className="transaction-body">$Amount</div>
-            </div>
-            <div className='total-expense'>
-            <div className="header">Total Expense</div>
-            <div className="transaction-body">$Amount</div>
-            </div>
+            <TransactionChart  totals={totals}/>
           </div>
           {isFetching ? <Alert style={{fontWeight:"bold",textTransform:"uppercase"}} key={"info"} variant={'info'}> Fetching your Transaction Details... </Alert>:
           <div className='recent-transaction' style={{overflowY:"auto"}}>
@@ -47,7 +46,7 @@ function Home() {
               </thead>
               <tbody>
               {transactionList?.map(transaction => (
-                  <tr key={transaction._id} style={(transaction.type ==="income"?{backgroundColor:"rgb(70, 187, 70)",fontWeight:"bold"}:{backgroundColor:"rgb(229, 102, 102)",fontWeight:"bold"})} >
+                  <tr key={transaction._id} style={(transaction.type ==="income"?{backgroundColor:"#98FB98",fontWeight:"bold"}:{backgroundColor:"#FC567A",fontWeight:"bold"})} >
                     
                     <td>{new Date(transaction.date)
                     .toLocaleDateString('en-GB',{
@@ -55,10 +54,10 @@ function Home() {
                                                   month: 'long',
                                                   year: 'numeric',
                                                  })}</td>
-                    <td>{transaction.category}</td>
-                    <td>{transaction.type}</td>
+                    <td style={{textTransform:"capitalize"}}>{transaction.category}</td>
+                    <td style={{textTransform:"capitalize"}}>{transaction.type}</td>
                     <td>₹{transaction.amount}</td>
-                    <td>{transaction.description}</td>
+                    <td style={{textTransform:"capitalize"}}>{transaction.description}</td>
                   </tr>
                 ))}
               </tbody>
